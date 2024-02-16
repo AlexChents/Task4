@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Task4.Models.Book>
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Подробиці</h1>
+
+<div>
+    <h4>Автор</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => Model.First().Author.LastName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => Model.First().Author.LastName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => Model.First().Author.FirstName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => Model.First().Author.FirstName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => Model.First().Author.MiddleName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => Model.First().Author.MiddleName)
+        </dd>
+    </dl>
+</div>
+<div style="display: flex;
+     justify-content: space-between;">
+    <h4>Книги</h4>
+   
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" asp-action="AddBook">Додати книжку</button>
+
+</div>
+<hr />
+<div>
+    @foreach (var item in Model)
+    {
+        <div style="border:double; border-width: thick; padding: 5px;">
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => item.Name):
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => item.Name)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => item.Genre.Name)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => item.Genre.Name)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => item.CountPages)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => item.CountPages)
+                </dd>
+            </dl>
+        </div>
+    }
+    <hr />
+</div>
+<hr />
+
+@await Html.PartialAsync("_BookPartialAddView", new Book());

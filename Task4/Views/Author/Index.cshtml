@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Task4.Models.Author>
+
+@{
+    ViewData["Title"] = "Автори";
+}
+
+<h1>Автори</h1>
+
+<p>
+    <a asp-action="Create">Додати автора</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Автори
+            </th>
+            <th>Книжок у базі</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)   
+                @Html.DisplayFor(modelItem => item.LastName)   
+                @Html.DisplayFor(modelItem => item.MiddleName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Books.Count)
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                @Html.ActionLink("Редагувати", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Подробиці", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Видалити", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
