@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Task4.Models.Book>
+﻿@model Task4.Models.Author
 
 @{
     ViewData["Title"] = "Details";
@@ -6,66 +6,42 @@
 
 <h1>Подробиці</h1>
 
-<div>
+<div id="detailsBooksAuthor">
     <h4>Автор</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => Model.First().Author.LastName)
+            @Html.DisplayNameFor(model => Model.LastName)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => Model.First().Author.LastName)
+            @Html.DisplayFor(model => Model.LastName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => Model.First().Author.FirstName)
+            @Html.DisplayNameFor(model => Model.FirstName)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => Model.First().Author.FirstName)
+            @Html.DisplayFor(model => Model.FirstName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => Model.First().Author.MiddleName)
+            @Html.DisplayNameFor(model => Model.MiddleName)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => Model.First().Author.MiddleName)
+            @Html.DisplayFor(model => Model.MiddleName)
         </dd>
     </dl>
 </div>
 <div style="display: flex;
      justify-content: space-between;">
     <h4>Книги</h4>
-   
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" asp-action="AddBook">Додати книжку</button>
+    <button type="button" id="btnAddBook" class="btn btn-primary" data-toggle="modal" data-target="#bookAddModal">Додати книжку</button>
+    <input type="hidden" id="authorIdData" value="@Model.Id" />
+</div>
+<div id="booksData">
 
 </div>
 <hr />
 <div>
-    @foreach (var item in Model)
-    {
-        <div style="border:double; border-width: thick; padding: 5px;">
-            <dl class="row">
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => item.Name):
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => item.Name)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => item.Genre.Name)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => item.Genre.Name)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => item.CountPages)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => item.CountPages)
-                </dd>
-            </dl>
-        </div>
-    }
-    <hr />
+    <input type="submit" id="addToDB" value="Зберегти" class="btn btn-primary"/>
 </div>
-<hr />
 
-@await Html.PartialAsync("_BookPartialAddView", new Book());
+@await Html.PartialAsync("_PartialBookAddView", new Book(){ AuthorId = Model.Id})

@@ -1,0 +1,48 @@
+﻿@model Task4.Models.Book
+
+<div class="modal" id="bookAddModal" tabindex="-1" role="dialog" aria-labelledby="addBookLabel" aria-hidden="true">
+    <div class="modal-dialog draggable" role="document">
+        <form id="modalform" method="post" >
+         <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Книжка</h4>
+                    <div style="width:100%;">
+                        <button type="button" style="float:right" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+            </div>
+
+            <div class="modal-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" id="nameBook" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="GenreId" class="control-label"></label>
+                        <select asp-for="GenreId" id="genreId" class="form-control" asp-items="@ViewBag.Genres"></select>
+                        <span asp-validation-for="GenreId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CountPages" class="control-label"></label>
+                        <input asp-for="CountPages" id="countPages" class="form-control" />
+                        <span asp-validation-for="CountPages" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+                    <input type="hidden" id="authorIdAddBook" asp-for="AuthorId" />
+                    <input type="submit" id="btnSubmit" value="Додати" class="btn btn-primary" data-dismiss="modal" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}

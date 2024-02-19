@@ -43,8 +43,35 @@ namespace Task4.Controllers
 
         public ActionResult Details(Guid id)
         {
-            var booksAuthor = _context.Books.Include(b => b.Author).Include(b => b.Genre).Where(b => b.AuthorId == id).ToList();
-            return View(booksAuthor);
+            ViewBag.Genres = new SelectList(_context.Genres, "Id", "Name");
+            return View(_context.Authors.Find(id));
+        }
+
+        public JsonResult BooksListAuthor(Guid id)
+        {
+            var data = _context.Books.Include(b => b.Genre).Where(b => b.AuthorId == id);
+            return new JsonResult(data);
+        }
+
+        public JsonResult AddBookAuthor(Book bookAuthor)
+        { 
+            var book = new Book
+            {
+                Name = bookAuthor.Name,
+                GenreId = bookAuthor.GenreId,
+                CountPages = bookAuthor.CountPages,
+                AuthorId = bookAuthor.AuthorId
+            };   
+            _context.Books.Add(book);
+            try 
+            { 
+                _context.SaveChanges();
+                return new JsonResult("Книжка додана");
+            } 
+            catch 
+            { 
+                return new JsonResult("Книжка не додана");
+            }
         }
 
         public ActionResult Edit(Guid id)
@@ -96,36 +123,6 @@ namespace Task4.Controllers
             catch
             {
                 return View();
-            }
-        }
-
-        [HttpGet]
-        public IActionResult AddBook(Guid id)
-        {
-            ViewData["AuthorId"] = id;
-            ViewBag.Genres = new SelectList(_context.Genres, "Id", "Name");
-            return PartialView("_BookPartialAddView");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddBook(Guid id, [Bind("Name", "CountPages", "Genre")]Book book)
-        {
-            try
-            {
-                _context.Books.Add(new Book
-                {
-                    Id = Guid.NewGuid(),
-                    Name = book.Name,
-                    AuthorId = id,
-                    GenreId = book.Genre.Id,
-                    CountPages = book.CountPages
-                });
-                return RedirectToAction(nameof(Details));
-            }
-            catch
-            {
-                return RedirectToAction(nameof(Index));
             }
         }
     }
